@@ -36,14 +36,16 @@ export default function LoginPage() {
   return (
     <div className="flex flex-1 items-center justify-center px-6 py-16">
       <Card padding="lg" className="w-full max-w-sm">
-        <Image
-          src="/logo-transparent.png"
-          alt="ResumeIt logo"
-          width={171}
-          height={56}
-          unoptimized
-          className="mb-4 h-14 w-auto"
-        />
+        <div className="mb-4 flex justify-center">
+          <Image
+            src="/logo-transparent.png"
+            alt="ResumeIt logo"
+            width={195}
+            height={64}
+            unoptimized
+            className="h-16 w-auto"
+          />
+        </div>
 
         <h1 className="font-serif text-2xl font-medium text-text-primary">
           Log in

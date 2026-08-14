@@ -7,11 +7,11 @@ export default function Home() {
       <Image
         src="/logo-transparent.png"
         alt="ResumeIt"
-        width={220}
-        height={72}
+        width={244}
+        height={80}
         priority
         unoptimized
-        className="h-16 w-auto sm:h-20"
+        className="h-20 w-auto sm:h-24"
       />
 
       <div className="flex flex-col items-center gap-3">

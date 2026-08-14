@@ -52,10 +52,10 @@ export default function TopBar({
         <Image
           src="/logo-transparent.png"
           alt="ResumeIt"
-          width={85}
-          height={28}
+          width={98}
+          height={32}
           unoptimized
-          className="h-7 w-auto flex-shrink-0"
+          className="h-8 w-auto flex-shrink-0"
         />
         <Link
           href="/dashboard"
