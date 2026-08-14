@@ -264,7 +264,14 @@ export default function ResumeTree({
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
       <div className="relative flex flex-1 overflow-hidden">
-        <div className="flex flex-1 overflow-auto px-8 py-10">
+        <div
+          className="flex flex-1 overflow-auto px-8 py-10"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, var(--color-border-subtle) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+          }}
+        >
           {loading && <p className="label-sm text-text-secondary">Loading tree…</p>}
 
           {!loading && error && (
