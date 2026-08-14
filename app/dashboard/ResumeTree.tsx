@@ -10,7 +10,6 @@ import SegmentedToggle from "@/components/ui/SegmentedToggle";
 
 interface ResumeTreeProps {
   collectionId: string;
-  collectionName: string;
   nodes: ResumeTreeNode[];
   loading: boolean;
   error: string | null;
@@ -243,7 +242,6 @@ function AddRootNodeForm({
 
 export default function ResumeTree({
   collectionId,
-  collectionName,
   nodes,
   loading,
   error,
@@ -260,65 +258,72 @@ export default function ResumeTree({
   onLoadTemplates,
 }: ResumeTreeProps) {
   const selectedNodeId = readLastNodeId(collectionId);
+  const [collapseAllVersion, setCollapseAllVersion] = useState(0);
 
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border-subtle px-8 py-5">
-        <h1 className="font-serif text-2xl font-medium text-text-primary">{collectionName}</h1>
+      <div className="relative flex flex-1 overflow-hidden">
+        <div className="flex flex-1 overflow-auto px-8 py-10">
+          {loading && <p className="label-sm text-text-secondary">Loading tree…</p>}
 
-        <SegmentedToggle
-          variant="neutral"
-          size="sm"
-          value={orientation}
-          onChange={(value) => onOrientationChange(value as Orientation)}
-          options={[
-            { value: "vertical", label: "Top → Bottom" },
-            { value: "horizontal", label: "Left → Right" },
-          ]}
-        />
-      </div>
-
-      <div className="flex flex-1 overflow-auto px-8 py-10">
-        {loading && <p className="label-sm text-text-secondary">Loading tree…</p>}
-
-        {!loading && error && (
-          <p role="alert" className="text-sm text-danger">
-            {error}
-          </p>
-        )}
-
-        {!loading && !error && nodes.length === 0 && (
-          <div className="flex flex-col items-start gap-4">
-            <p className="max-w-md text-sm text-text-secondary">
-              This collection doesn&apos;t have any resume versions yet. Create a root node to
-              get started.
+          {!loading && error && (
+            <p role="alert" className="text-sm text-danger">
+              {error}
             </p>
-            <AddRootNodeForm
-              onAddRootNode={onAddRootNode}
-              templates={templates}
-              templatesLoading={templatesLoading}
-              templatesError={templatesError}
-              onLoadTemplates={onLoadTemplates}
-            />
-          </div>
-        )}
+          )}
+
+          {!loading && !error && nodes.length === 0 && (
+            <div className="m-auto flex flex-col items-start gap-4">
+              <p className="max-w-md text-sm text-text-secondary">
+                This collection doesn&apos;t have any resume versions yet. Create a root node to
+                get started.
+              </p>
+              <AddRootNodeForm
+                onAddRootNode={onAddRootNode}
+                templates={templates}
+                templatesLoading={templatesLoading}
+                templatesError={templatesError}
+                onLoadTemplates={onLoadTemplates}
+              />
+            </div>
+          )}
+
+          {!loading && !error && nodes.length > 0 && (
+            <div
+              className={`m-auto flex items-start gap-16 ${orientation === "vertical" ? "flex-row flex-wrap" : "flex-col"}`}
+            >
+              {nodes.map((node) => (
+                <TreeNode
+                  key={`${node._id}-${collapseAllVersion}`}
+                  node={node}
+                  orientation={orientation}
+                  selectedNodeId={selectedNodeId}
+                  initiallyCollapsed={collapseAllVersion > 0}
+                  onAddChild={onAddChild}
+                  onRename={onRename}
+                  onDelete={onDelete}
+                  onTailor={onTailor}
+                />
+              ))}
+            </div>
+          )}
+        </div>
 
         {!loading && !error && nodes.length > 0 && (
-          <div
-            className={`m-auto flex items-start gap-16 ${orientation === "vertical" ? "flex-row flex-wrap" : "flex-col"}`}
-          >
-            {nodes.map((node) => (
-              <TreeNode
-                key={node._id}
-                node={node}
-                orientation={orientation}
-                selectedNodeId={selectedNodeId}
-                onAddChild={onAddChild}
-                onRename={onRename}
-                onDelete={onDelete}
-                onTailor={onTailor}
-              />
-            ))}
+          <div className="absolute bottom-4 right-4 flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => setCollapseAllVersion((v) => v + 1)}>
+              Collapse All
+            </Button>
+            <SegmentedToggle
+              variant="neutral"
+              size="sm"
+              value={orientation}
+              onChange={(value) => onOrientationChange(value as Orientation)}
+              options={[
+                { value: "vertical", label: "┬", ariaLabel: "Top to bottom" },
+                { value: "horizontal", label: "├", ariaLabel: "Left to right" },
+              ]}
+            />
           </div>
         )}
       </div>

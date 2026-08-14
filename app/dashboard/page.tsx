@@ -260,7 +260,6 @@ export default function DashboardPage() {
       ) : selectedCollection ? (
         <ResumeTree
           collectionId={selectedCollection._id}
-          collectionName={selectedCollection.name}
           nodes={tree}
           loading={treeLoading}
           error={treeError}

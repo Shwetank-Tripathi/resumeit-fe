@@ -14,6 +14,7 @@ interface TreeNodeProps {
   node: ResumeTreeNode;
   orientation: Orientation;
   selectedNodeId: string | null;
+  initiallyCollapsed?: boolean;
   onAddChild: (parentId: string, title: string) => Promise<void>;
   onRename: (nodeId: string, title: string) => Promise<void>;
   onDelete: (nodeId: string) => Promise<void>;
@@ -41,13 +42,14 @@ export default function TreeNode({
   node,
   orientation,
   selectedNodeId,
+  initiallyCollapsed = false,
   onAddChild,
   onRename,
   onDelete,
   onTailor,
 }: TreeNodeProps) {
   const router = useRouter();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(initiallyCollapsed);
   const [mode, setMode] = useState<Mode>("view");
   const [inputValue, setInputValue] = useState("");
   const [submitting, setSubmitting] = useState(false);

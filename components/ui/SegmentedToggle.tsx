@@ -7,6 +7,7 @@ export type SegmentedToggleLayout = "attached" | "separated";
 interface SegmentedToggleOption {
   value: string;
   label: string;
+  ariaLabel?: string;
   disabled?: boolean;
 }
 
@@ -57,6 +58,8 @@ export default function SegmentedToggle({
               type="button"
               onClick={() => onChange(option.value)}
               aria-pressed={active}
+              aria-label={option.ariaLabel ?? option.label}
+              title={option.ariaLabel ?? option.label}
               disabled={disabled || option.disabled}
               className={`flex-1 rounded-radius-default border border-border-subtle transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${textClass} ${paddingClass} ${
                 active ? activeClass : INACTIVE_CLASS
@@ -82,6 +85,8 @@ export default function SegmentedToggle({
             type="button"
             onClick={() => onChange(option.value)}
             aria-pressed={active}
+            aria-label={option.ariaLabel ?? option.label}
+            title={option.ariaLabel ?? option.label}
             disabled={disabled || option.disabled}
             className={`flex-1 transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${paddingClass} ${
               index > 0 ? "border-l border-border-subtle" : ""
