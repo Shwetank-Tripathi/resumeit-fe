@@ -115,7 +115,7 @@ export default function TreeNode({
   return (
     <div className={`flex ${isVertical ? "flex-col" : "flex-row"} items-center`}>
       <div className="group relative">
-        <Card padding="md" selected={isSelected} className="w-72">
+        <Card padding="md" selected={isSelected} className="w-60">
         {mode === "rename" ? (
           <form onSubmit={handleRenameSubmit} className="flex flex-col gap-2">
             <TextField
@@ -151,7 +151,7 @@ export default function TreeNode({
             }}
             className="block w-full cursor-pointer text-left"
           >
-            <div className="flex items-start gap-3">
+            <div className="relative flex justify-center gap-3">
               <div className="flex min-w-0 items-center gap-1.5">
                 <p className="label-md min-w-0 truncate break-words text-text-primary">{node.title}</p>
                 <button
@@ -167,12 +167,12 @@ export default function TreeNode({
                 >
                   <PencilIcon className="h-3.5 w-3.5" />
                 </button>
-                <span className="flex-shrink-0 text-[10px] text-text-secondary">
+                <span className="flex-shrink-0 text-[9px] text-text-secondary">
                   {new Date(node.updatedAt).toLocaleDateString()}
                 </span>
               </div>
               {typeof node.atsScore === "number" && (
-                <div className="flex flex-shrink-0 items-center">
+                <div className="absolute right-0 top-0 flex flex-shrink-0 items-center">
                   <Badge tone="gold" variant="outline">
                     {node.atsScore}
                   </Badge>
