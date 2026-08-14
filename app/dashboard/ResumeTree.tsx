@@ -7,6 +7,7 @@ import UploadResumeForm from "./UploadResumeForm";
 import Button from "@/components/ui/Button";
 import TextField from "@/components/ui/TextField";
 import SegmentedToggle from "@/components/ui/SegmentedToggle";
+import { CollapseAllIcon, TreeOrientationIcon } from "@/components/ui/icons";
 
 interface ResumeTreeProps {
   collectionId: string;
@@ -310,20 +311,43 @@ export default function ResumeTree({
         </div>
 
         {!loading && !error && nodes.length > 0 && (
-          <div className="absolute bottom-4 right-4 flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => setCollapseAllVersion((v) => v + 1)}>
-              Collapse All
-            </Button>
-            <SegmentedToggle
-              variant="neutral"
-              size="sm"
-              value={orientation}
-              onChange={(value) => onOrientationChange(value as Orientation)}
-              options={[
-                { value: "vertical", label: "┬", ariaLabel: "Top to bottom" },
-                { value: "horizontal", label: "├", ariaLabel: "Left to right" },
-              ]}
-            />
+          <div className="absolute bottom-4 right-4 flex items-center gap-1 rounded-radius-default border border-border-subtle bg-bg-canvas p-1">
+            <button
+              type="button"
+              aria-label="Top to bottom"
+              aria-pressed={orientation === "vertical"}
+              onClick={() => onOrientationChange("vertical")}
+              className={`rounded-radius-default p-1.5 transition-colors ${
+                orientation === "vertical"
+                  ? "bg-bg-toggle-selected text-text-primary"
+                  : "text-text-secondary hover:text-text-primary"
+              }`}
+            >
+              <TreeOrientationIcon orientation="vertical" className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              aria-label="Left to right"
+              aria-pressed={orientation === "horizontal"}
+              onClick={() => onOrientationChange("horizontal")}
+              className={`rounded-radius-default p-1.5 transition-colors ${
+                orientation === "horizontal"
+                  ? "bg-bg-toggle-selected text-text-primary"
+                  : "text-text-secondary hover:text-text-primary"
+              }`}
+            >
+              <TreeOrientationIcon orientation="horizontal" className="h-4 w-4" />
+            </button>
+            <div className="mx-1 h-5 w-px bg-border-subtle" />
+            <button
+              type="button"
+              aria-label="Collapse all"
+              title="Collapse all"
+              onClick={() => setCollapseAllVersion((v) => v + 1)}
+              className="rounded-radius-default p-1.5 text-text-secondary transition-colors hover:text-text-primary"
+            >
+              <CollapseAllIcon className="h-4 w-4" />
+            </button>
           </div>
         )}
       </div>
