@@ -304,31 +304,21 @@ export default function ResumeTree({
         )}
 
         {!loading && !error && nodes.length > 0 && (
-          <div className="flex flex-col gap-8">
-            <div
-              className={`flex items-start gap-16 ${orientation === "vertical" ? "flex-row flex-wrap" : "flex-col"}`}
-            >
-              {nodes.map((node) => (
-                <TreeNode
-                  key={node._id}
-                  node={node}
-                  orientation={orientation}
-                  selectedNodeId={selectedNodeId}
-                  onAddChild={onAddChild}
-                  onRename={onRename}
-                  onDelete={onDelete}
-                  onTailor={onTailor}
-                />
-              ))}
-            </div>
-
-            <AddRootNodeForm
-              onAddRootNode={onAddRootNode}
-              templates={templates}
-              templatesLoading={templatesLoading}
-              templatesError={templatesError}
-              onLoadTemplates={onLoadTemplates}
-            />
+          <div
+            className={`flex items-start gap-16 ${orientation === "vertical" ? "flex-row flex-wrap" : "flex-col"}`}
+          >
+            {nodes.map((node) => (
+              <TreeNode
+                key={node._id}
+                node={node}
+                orientation={orientation}
+                selectedNodeId={selectedNodeId}
+                onAddChild={onAddChild}
+                onRename={onRename}
+                onDelete={onDelete}
+                onTailor={onTailor}
+              />
+            ))}
           </div>
         )}
       </div>
