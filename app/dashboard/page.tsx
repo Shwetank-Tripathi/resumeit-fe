@@ -32,6 +32,22 @@ function rememberLastNode(collectionId: string, nodeId: string) {
   }
 }
 
+function readLastCollection(): string | null {
+  try {
+    return window.sessionStorage.getItem("resumeit:lastCollection");
+  } catch {
+    return null;
+  }
+}
+
+function rememberLastCollection(collectionId: string) {
+  try {
+    window.sessionStorage.setItem("resumeit:lastCollection", collectionId);
+  } catch {
+    return;
+  }
+}
+
 export default function DashboardPage() {
   const router = useRouter();
 
@@ -82,7 +98,14 @@ export default function DashboardPage() {
           .then((list) => {
             if (cancelled) return;
             setCollections(list);
-            setSelectedId((current) => current ?? list[0]?._id ?? null);
+            setSelectedId((current) => {
+              if (current) return current;
+              const remembered = readLastCollection();
+              if (remembered && list.some((c) => c._id === remembered)) {
+                return remembered;
+              }
+              return list[0]?._id ?? null;
+            });
           })
           .catch((err) => {
             if (cancelled) return;
@@ -133,6 +156,10 @@ export default function DashboardPage() {
     setTreeLoading(true);
     void refreshTree(selectedId, token);
   }, [token, selectedId, refreshTree]);
+
+  useEffect(() => {
+    if (selectedId) rememberLastCollection(selectedId);
+  }, [selectedId]);
 
   function handleLogout() {
     clearToken();
