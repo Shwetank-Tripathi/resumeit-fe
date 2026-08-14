@@ -295,31 +295,38 @@ export default function TreeNode({
       {hasChildren && !collapsed && (
         <>
           <div className={stemClass(isVertical)} />
-          <div className={`flex ${isVertical ? "flex-col items-stretch" : "flex-row items-stretch"}`}>
-            {node.children.length > 1 && (
-              <div className={isVertical ? "h-px w-full bg-border-subtle" : "h-full w-px bg-border-subtle"} />
-            )}
-            <div
-              className={`flex items-start gap-8 ${isVertical ? "flex-row" : "flex-col"}`}
-            >
-              {node.children.map((child) => (
-                <div
-                  key={child._id}
-                  className={`flex ${isVertical ? "flex-col items-center" : "flex-row items-center"}`}
-                >
-                  <div className={stemClass(isVertical)} />
-                  <TreeNode
-                    node={child}
-                    orientation={orientation}
-                    selectedNodeId={selectedNodeId}
-                    onAddChild={onAddChild}
-                    onRename={onRename}
-                    onDelete={onDelete}
-                    onTailor={onTailor}
-                  />
-                </div>
-              ))}
-            </div>
+          <div
+            className={`flex items-start gap-8 ${isVertical ? "flex-row" : "flex-col"}`}
+          >
+            {node.children.map((child, index) => (
+              <div
+                key={child._id}
+                className={`relative flex ${isVertical ? "flex-col items-center" : "flex-row items-center"}`}
+              >
+                {index > 0 &&
+                  (isVertical ? (
+                    <div className="absolute -left-4 top-0 h-px w-[calc(50%+1rem)] bg-border-subtle" />
+                  ) : (
+                    <div className="absolute -top-4 left-0 h-[calc(50%+1rem)] w-px bg-border-subtle" />
+                  ))}
+                {index < node.children.length - 1 &&
+                  (isVertical ? (
+                    <div className="absolute left-1/2 top-0 h-px w-[calc(50%+1rem)] bg-border-subtle" />
+                  ) : (
+                    <div className="absolute left-0 top-1/2 h-[calc(50%+1rem)] w-px bg-border-subtle" />
+                  ))}
+                <div className={stemClass(isVertical)} />
+                <TreeNode
+                  node={child}
+                  orientation={orientation}
+                  selectedNodeId={selectedNodeId}
+                  onAddChild={onAddChild}
+                  onRename={onRename}
+                  onDelete={onDelete}
+                  onTailor={onTailor}
+                />
+              </div>
+            ))}
           </div>
         </>
       )}
