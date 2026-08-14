@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-canvas: #0f1416;
+  --color-bg-sidebar: #0a0f11;
+  --color-bg-surface: #171c1e;
+  --color-bg-surface-raised: #262b2d;
+  --color-border-subtle: #42484a;
+  --color-border-strong: #8c9194;
+
+  --color-text-primary: #dfe3e6;
+  --color-text-secondary: #c2c7ca;
+  --color-text-on-accent-strong: #cfc6ae;
+
+  --color-accent: #b4cad3;
+  --color-accent-strong: #4d6169;
+  --color-accent-muted: #1a2e35;
+
+  --color-accent-gold: #e9c176;
+
+  --color-accent-ai: #a897c4;
+  --color-accent-ai-tint-dark: #22242b;
+  --color-accent-ai-tint-light: #e6dfff;
+
+  --color-accent-tailor: #7fb69e;
+
+  --color-danger: #ffb4ab;
+
+  --color-bg-toggle-selected: #2c2e36;
+
+  --radius-radius-sm: 2px;
+  --radius-radius-default: 4px;
+  --radius-radius-md: 6px;
+  --radius-radius-lg: 8px;
+  --radius-radius-xl: 12px;
+
+  --font-sans: var(--font-ibm-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-ibm-plex-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+@utility label-md {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+@utility label-sm {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+body {
+  background-color: var(--color-bg-canvas);
+  color: var(--color-text-primary);
+}
