@@ -23,6 +23,7 @@ import Sidebar from "./Sidebar";
 import ResumeTree from "./ResumeTree";
 import type { Orientation } from "./TreeNode";
 import AiEditDrawer from "./nodes/[nodeId]/AiEditDrawer";
+import { ChevronIcon } from "@/components/ui/icons";
 
 function rememberLastNode(collectionId: string, nodeId: string) {
   try {
@@ -50,6 +51,8 @@ function rememberLastCollection(collectionId: string) {
 
 export default function DashboardPage() {
   const router = useRouter();
+
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const [token, setAuthToken] = useState<string | null>(null);
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -267,18 +270,37 @@ export default function DashboardPage() {
   const selectedCollection = collections.find((c) => c._id === selectedId) ?? null;
 
   return (
-    <div className="flex h-screen min-h-0">
-      <Sidebar
-        collections={collections}
-        selectedId={selectedId}
-        onSelect={setSelectedId}
-        onCreate={handleCreateCollection}
-        loading={collectionsLoading}
-        error={collectionsError}
-        userEmail={user?.email}
-        userRole={user?.role}
-        onLogout={handleLogout}
-      />
+    <div className="relative flex h-screen min-h-0">
+      <div
+        className={`flex-shrink-0 overflow-hidden transition-[width] duration-300 ease-in-out ${
+          sidebarCollapsed ? "w-0" : "w-72"
+        }`}
+      >
+        <Sidebar
+          collections={collections}
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+          onCreate={handleCreateCollection}
+          loading={collectionsLoading}
+          error={collectionsError}
+          userEmail={user?.email}
+          userRole={user?.role}
+          onLogout={handleLogout}
+          onCollapse={() => setSidebarCollapsed(true)}
+        />
+      </div>
+
+      {sidebarCollapsed && (
+        <button
+          type="button"
+          onClick={() => setSidebarCollapsed(false)}
+          aria-label="Show sidebar"
+          title="Show sidebar"
+          className="absolute left-2 top-4 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
+        >
+          <ChevronIcon direction="right" className="h-4 w-4" />
+        </button>
+      )}
 
       {collectionsLoading ? (
         <div className="flex flex-1 items-center justify-center">

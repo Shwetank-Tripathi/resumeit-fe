@@ -5,6 +5,7 @@ import { useState, type FormEvent } from "react";
 import type { ResumeCollection, UserRole } from "@/lib/api";
 import Button from "@/components/ui/Button";
 import TextField from "@/components/ui/TextField";
+import { ChevronIcon } from "@/components/ui/icons";
 
 interface SidebarProps {
   collections: ResumeCollection[];
@@ -16,6 +17,7 @@ interface SidebarProps {
   userEmail?: string | null;
   userRole?: UserRole | null;
   onLogout: () => void;
+  onCollapse: () => void;
 }
 
 export default function Sidebar({
@@ -28,6 +30,7 @@ export default function Sidebar({
   userEmail,
   userRole,
   onLogout,
+  onCollapse,
 }: SidebarProps) {
   const [creating, setCreating] = useState(false);
   const [name, setName] = useState("");
@@ -54,7 +57,8 @@ export default function Sidebar({
   return (
     <aside className="flex w-72 flex-shrink-0 flex-col border-r border-border-subtle bg-bg-sidebar">
       <div className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="mb-4 flex justify-center">
+        <div className="mb-4 flex items-center justify-between">
+          <div className="flex-1" />
           <Image
             src="/logo-transparent.png"
             alt="ResumeIt"
@@ -63,6 +67,17 @@ export default function Sidebar({
             unoptimized
             className="h-14 w-auto"
           />
+          <div className="flex flex-1 justify-end">
+            <button
+              type="button"
+              onClick={onCollapse}
+              aria-label="Hide sidebar"
+              title="Hide sidebar"
+              className="text-text-secondary transition-colors hover:text-text-primary"
+            >
+              <ChevronIcon direction="left" className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         <h2 className="label-sm px-2 text-text-secondary">Collections</h2>

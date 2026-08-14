@@ -65,10 +65,17 @@ export function TrashIcon({ className }: IconProps) {
   );
 }
 
+const CHEVRON_PATHS = {
+  up: "M6 15l6-6 6 6",
+  down: "M6 9l6 6 6-6",
+  left: "M15 6l-6 6 6 6",
+  right: "M9 6l6 6-6 6",
+};
+
 export function ChevronIcon({
   direction = "down",
   className,
-}: IconProps & { direction?: "up" | "down" }) {
+}: IconProps & { direction?: "up" | "down" | "left" | "right" }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -80,7 +87,7 @@ export function ChevronIcon({
       className={className}
       aria-hidden
     >
-      <path d={direction === "up" ? "M6 15l6-6 6 6" : "M6 9l6 6 6-6"} />
+      <path d={CHEVRON_PATHS[direction]} />
     </svg>
   );
 }
