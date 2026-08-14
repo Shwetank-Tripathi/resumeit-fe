@@ -151,7 +151,7 @@ export default function TreeNode({
             }}
             className="block w-full cursor-pointer text-left"
           >
-            <div className="flex items-start justify-between gap-2">
+            <div className="flex items-start gap-3">
               <div className="flex min-w-0 items-center gap-1.5">
                 <p className="label-md min-w-0 truncate break-words text-text-primary">{node.title}</p>
                 <button
@@ -171,25 +171,13 @@ export default function TreeNode({
                   {new Date(node.updatedAt).toLocaleDateString()}
                 </span>
               </div>
-              <div className="flex flex-shrink-0 items-center gap-2">
-                <button
-                  type="button"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setMode("confirm-delete");
-                  }}
-                  aria-label="Delete"
-                  title="Delete"
-                  className="text-danger transition-opacity hover:opacity-75"
-                >
-                  <TrashIcon className="h-4 w-4" />
-                </button>
-                {typeof node.atsScore === "number" && (
+              {typeof node.atsScore === "number" && (
+                <div className="flex flex-shrink-0 items-center">
                   <Badge tone="gold" variant="outline">
                     {node.atsScore}
                   </Badge>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         ) : (
@@ -266,9 +254,9 @@ export default function TreeNode({
                 onClick={() => setCollapsed((current) => !current)}
                 aria-label={collapsed ? "Expand" : "Collapse"}
                 title={collapsed ? "Expand" : "Collapse"}
-                className="flex h-6 w-6 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
+                className="flex h-5 w-5 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
               >
-                <ChevronIcon direction={collapsed ? "down" : "up"} className="h-3.5 w-3.5" />
+                <ChevronIcon direction={collapsed ? "down" : "up"} className="h-3 w-3" />
               </button>
             )}
             <button
@@ -276,9 +264,18 @@ export default function TreeNode({
               onClick={() => setMode("add-child")}
               aria-label="Add child"
               title="Add child"
-              className="flex h-6 w-6 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-sm text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
+              className="flex h-5 w-5 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-xs text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
             >
               +
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("confirm-delete")}
+              aria-label="Delete"
+              title="Delete"
+              className="flex h-5 w-5 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-danger transition-colors hover:border-danger hover:opacity-75"
+            >
+              <TrashIcon className="h-3 w-3" />
             </button>
           </div>
         )}
