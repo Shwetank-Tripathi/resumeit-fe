@@ -336,7 +336,9 @@ export default function TreeNode({
                   : { gridTemplateColumns: collapsed ? "0fr" : "1fr" }
               }
             >
-              <div className="min-h-0 min-w-0 overflow-hidden">
+              <div
+                className={`overflow-hidden ${isVertical ? "min-h-0 pb-4" : "min-w-0 pr-4"}`}
+              >
                 <div
                   className={`flex items-start gap-8 ${isVertical ? "flex-row" : "flex-col"}`}
                 >
