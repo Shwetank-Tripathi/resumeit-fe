@@ -290,9 +290,9 @@ export default function TreeNode({
               onClick={() => setCollapsed(false)}
               tabIndex={collapsed ? 0 : -1}
               aria-hidden={!collapsed}
-              className={`absolute left-0 top-0 transition-opacity duration-300 ease-in-out hover:opacity-90 ${
-                collapsed ? "opacity-100" : "pointer-events-none opacity-0"
-              }`}
+              className={`absolute transition-opacity duration-300 ease-in-out hover:opacity-90 ${
+                isVertical ? "left-1/2 top-0 -translate-x-1/2" : "left-0 top-1/2 -translate-y-1/2"
+              } ${collapsed ? "opacity-100" : "pointer-events-none opacity-0"}`}
             >
               <Badge tone="accent" variant="stamp">
                 + {countDescendants(node)} hidden
