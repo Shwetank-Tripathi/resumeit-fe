@@ -23,7 +23,6 @@ interface ResumeTreeProps {
   onAddChild: (parentId: string, title: string) => Promise<void>;
   onRename: (nodeId: string, title: string) => Promise<void>;
   onDelete: (nodeId: string) => Promise<void>;
-  onTailor: (node: ResumeTreeNode) => void;
   templates: TemplateSummary[];
   templatesLoading: boolean;
   templatesError: string | null;
@@ -252,7 +251,6 @@ export default function ResumeTree({
   onAddChild,
   onRename,
   onDelete,
-  onTailor,
   templates,
   templatesLoading,
   templatesError,
@@ -310,7 +308,6 @@ export default function ResumeTree({
                   onAddChild={onAddChild}
                   onRename={onRename}
                   onDelete={onDelete}
-                  onTailor={onTailor}
                 />
               ))}
             </div>

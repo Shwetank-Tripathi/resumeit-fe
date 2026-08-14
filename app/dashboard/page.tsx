@@ -14,7 +14,6 @@ import {
   updateNode,
   type AuthUser,
   type ResumeCollection,
-  type ResumeNodeRecord,
   type ResumeTreeNode,
   type TemplateSummary,
 } from "@/lib/api";
@@ -22,16 +21,7 @@ import { clearToken, getToken } from "@/lib/auth";
 import Sidebar from "./Sidebar";
 import ResumeTree from "./ResumeTree";
 import type { Orientation } from "./TreeNode";
-import AiEditDrawer from "./nodes/[nodeId]/AiEditDrawer";
 import { ChevronIcon } from "@/components/ui/icons";
-
-function rememberLastNode(collectionId: string, nodeId: string) {
-  try {
-    window.sessionStorage.setItem(`resumeit:lastNode:${collectionId}`, nodeId);
-  } catch {
-    return;
-  }
-}
 
 function readLastCollection(): string | null {
   try {
@@ -77,8 +67,6 @@ export default function DashboardPage() {
   const [templates, setTemplates] = useState<TemplateSummary[]>([]);
   const [templatesLoading, setTemplatesLoading] = useState(false);
   const [templatesError, setTemplatesError] = useState<string | null>(null);
-
-  const [tailorTarget, setTailorTarget] = useState<ResumeTreeNode | null>(null);
 
   useEffect(() => {
     const t = getToken();
@@ -225,18 +213,6 @@ export default function DashboardPage() {
     await refreshTree(selectedId, token);
   }
 
-  function handleTailorOverwritten(updated: ResumeNodeRecord) {
-    if (token && selectedId) void refreshTree(selectedId, token);
-    if (selectedId) rememberLastNode(selectedId, updated._id);
-    setTailorTarget(null);
-  }
-
-  function handleTailorBranched(created: ResumeNodeRecord) {
-    if (token && selectedId) void refreshTree(selectedId, token);
-    if (selectedId) rememberLastNode(selectedId, created._id);
-    setTailorTarget(null);
-  }
-
   if (authLoading) {
     return (
       <div className="flex flex-1 items-center justify-center">
@@ -316,7 +292,6 @@ export default function DashboardPage() {
           onAddChild={handleAddChild}
           onRename={handleRename}
           onDelete={handleDelete}
-          onTailor={setTailorTarget}
           templates={templates}
           templatesLoading={templatesLoading}
           templatesError={templatesError}
@@ -329,17 +304,6 @@ export default function DashboardPage() {
           </p>
         </div>
       )}
-
-      <AiEditDrawer
-        open={tailorTarget !== null}
-        onClose={() => setTailorTarget(null)}
-        nodeId={tailorTarget?._id ?? ""}
-        collectionId={tailorTarget?.collectionId ?? ""}
-        nodeTitle={tailorTarget?.title ?? ""}
-        currentLatex={tailorTarget?.latex ?? ""}
-        onOverwritten={handleTailorOverwritten}
-        onBranched={handleTailorBranched}
-      />
     </div>
   );
 }

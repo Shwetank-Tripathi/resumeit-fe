@@ -19,7 +19,6 @@ interface TreeNodeProps {
   onAddChild: (parentId: string, title: string) => Promise<void>;
   onRename: (nodeId: string, title: string) => Promise<void>;
   onDelete: (nodeId: string) => Promise<void>;
-  onTailor: (node: ResumeTreeNode) => void;
 }
 
 type Mode = "view" | "rename" | "add-child" | "confirm-delete";
@@ -47,7 +46,6 @@ export default function TreeNode({
   onAddChild,
   onRename,
   onDelete,
-  onTailor,
 }: TreeNodeProps) {
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(initiallyCollapsed);
@@ -169,19 +167,22 @@ export default function TreeNode({
                 >
                   <PencilIcon className="h-3.5 w-3.5" />
                 </button>
+                <span className="flex-shrink-0 text-[10px] text-text-secondary">
+                  {new Date(node.updatedAt).toLocaleDateString()}
+                </span>
               </div>
               <div className="flex flex-shrink-0 items-center gap-2">
                 <button
                   type="button"
                   onClick={(event) => {
                     event.stopPropagation();
-                    onTailor(node);
+                    setMode("confirm-delete");
                   }}
-                  aria-label="Tailor with JD"
-                  title="Tailor with JD"
-                  className="text-2xl text-accent-tailor drop-shadow-[0_0_8px_var(--color-accent-tailor)] transition-opacity hover:opacity-75"
+                  aria-label="Delete"
+                  title="Delete"
+                  className="text-danger transition-opacity hover:opacity-75"
                 >
-                  ✦
+                  <TrashIcon className="h-4 w-4" />
                 </button>
                 {typeof node.atsScore === "number" && (
                   <Badge tone="gold" variant="outline">
@@ -190,9 +191,6 @@ export default function TreeNode({
                 )}
               </div>
             </div>
-            <p className="label-sm mt-1 text-text-secondary">
-              Updated {new Date(node.updatedAt).toLocaleDateString()}
-            </p>
           </div>
         ) : (
           <>
@@ -201,31 +199,6 @@ export default function TreeNode({
               Updated {new Date(node.updatedAt).toLocaleDateString()}
             </p>
           </>
-        )}
-
-        {mode === "view" && (
-          <div className="mt-3 flex items-center gap-3 border-t border-border-subtle pt-3">
-            <Button
-              variant="link"
-              size="sm"
-              href={`/dashboard/nodes/${node._id}`}
-              onClick={() => rememberLastNode(node)}
-            >
-              Preview
-            </Button>
-            <Button variant="link" size="sm" disabled title="Diff view is coming soon">
-              Diff
-            </Button>
-            <button
-              type="button"
-              onClick={() => setMode("confirm-delete")}
-              aria-label="Delete"
-              title="Delete"
-              className="ml-auto text-danger transition-opacity hover:opacity-75"
-            >
-              <TrashIcon className="h-4 w-4" />
-            </button>
-          </div>
         )}
 
         {mode === "add-child" && (
@@ -373,7 +346,6 @@ export default function TreeNode({
                         onAddChild={onAddChild}
                         onRename={onRename}
                         onDelete={onDelete}
-                        onTailor={onTailor}
                       />
                     </div>
                   ))}
