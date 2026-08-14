@@ -139,19 +139,44 @@ export default function TreeNode({
             </div>
           </form>
         ) : mode === "view" ? (
-          <button type="button" onClick={handleOpen} className="block w-full text-left">
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={handleOpen}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                handleOpen();
+              }
+            }}
+            className="block w-full cursor-pointer text-left"
+          >
             <div className="flex items-start justify-between gap-2">
-              <p className="label-md break-words text-text-primary">{node.title}</p>
-              {typeof node.atsScore === "number" && (
-                <Badge tone="gold" variant="outline">
-                  {node.atsScore}
-                </Badge>
-              )}
+              <p className="label-md min-w-0 truncate break-words text-text-primary">{node.title}</p>
+              <div className="flex flex-shrink-0 items-center gap-2">
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onTailor(node);
+                  }}
+                  aria-label="Tailor with JD"
+                  title="Tailor with JD"
+                  className="text-xl text-accent-tailor drop-shadow-[0_0_6px_var(--color-accent-tailor)] transition-opacity hover:opacity-75"
+                >
+                  ✦
+                </button>
+                {typeof node.atsScore === "number" && (
+                  <Badge tone="gold" variant="outline">
+                    {node.atsScore}
+                  </Badge>
+                )}
+              </div>
             </div>
             <p className="label-sm mt-1 text-text-secondary">
               Updated {new Date(node.updatedAt).toLocaleDateString()}
             </p>
-          </button>
+          </div>
         ) : (
           <>
             <p className="label-md break-words text-text-primary">{node.title}</p>
@@ -159,14 +184,6 @@ export default function TreeNode({
               Updated {new Date(node.updatedAt).toLocaleDateString()}
             </p>
           </>
-        )}
-
-        {mode === "view" && (
-          <div className="mt-3 flex justify-end">
-            <Button variant="tailor" size="sm" onClick={() => onTailor(node)}>
-              Tailor with JD
-            </Button>
-          </div>
         )}
 
         {mode === "view" && (
