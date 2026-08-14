@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import TextField from "@/components/ui/TextField";
+import { PencilIcon, TrashIcon } from "@/components/ui/icons";
 
 export type Orientation = "vertical" | "horizontal";
 
@@ -115,7 +116,8 @@ export default function TreeNode({
 
   return (
     <div className={`flex ${isVertical ? "flex-col" : "flex-row"} items-center`}>
-      <Card padding="md" selected={isSelected} className="w-72">
+      <div className="group relative">
+        <Card padding="md" selected={isSelected} className="w-72">
         {mode === "rename" ? (
           <form onSubmit={handleRenameSubmit} className="flex flex-col gap-2">
             <TextField
@@ -152,7 +154,22 @@ export default function TreeNode({
             className="block w-full cursor-pointer text-left"
           >
             <div className="flex items-start justify-between gap-2">
-              <p className="label-md min-w-0 truncate break-words text-text-primary">{node.title}</p>
+              <div className="flex min-w-0 items-center gap-1.5">
+                <p className="label-md min-w-0 truncate break-words text-text-primary">{node.title}</p>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setInputValue(node.title);
+                    setMode("rename");
+                  }}
+                  aria-label="Rename"
+                  title="Rename"
+                  className="flex-shrink-0 text-text-secondary transition-colors hover:text-text-primary"
+                >
+                  <PencilIcon className="h-3.5 w-3.5" />
+                </button>
+              </div>
               <div className="flex flex-shrink-0 items-center gap-2">
                 <button
                   type="button"
@@ -199,40 +216,27 @@ export default function TreeNode({
             <Button variant="link" size="sm" disabled title="Diff view is coming soon">
               Diff
             </Button>
-          </div>
-        )}
-
-        {mode === "view" && (
-          <div className="mt-3 flex flex-wrap gap-3 border-t border-border-subtle pt-3">
-            <Button variant="link" size="sm" onClick={() => setMode("add-child")}>
-              + Add child
-            </Button>
-            <button
-              type="button"
-              onClick={() => {
-                setInputValue(node.title);
-                setMode("rename");
-              }}
-              className="label-sm text-text-secondary hover:text-text-primary hover:underline"
-            >
-              Rename
-            </button>
             <button
               type="button"
               onClick={() => setMode("confirm-delete")}
-              className="label-sm text-danger hover:underline"
+              aria-label="Delete"
+              title="Delete"
+              className="ml-auto text-danger transition-opacity hover:opacity-75"
             >
-              Delete
+              <TrashIcon className="h-4 w-4" />
             </button>
-            {hasChildren && (
-              <button
-                type="button"
-                onClick={() => setCollapsed(true)}
-                className="label-sm text-text-secondary hover:text-text-primary hover:underline"
-              >
-                Collapse
-              </button>
-            )}
+          </div>
+        )}
+
+        {mode === "view" && hasChildren && (
+          <div className="mt-3 flex flex-wrap gap-3 border-t border-border-subtle pt-3">
+            <button
+              type="button"
+              onClick={() => setCollapsed(true)}
+              className="label-sm text-text-secondary hover:text-text-primary hover:underline"
+            >
+              Collapse
+            </button>
           </div>
         )}
 
@@ -292,7 +296,19 @@ export default function TreeNode({
             </div>
           </div>
         )}
-      </Card>
+        </Card>
+        {mode === "view" && (
+          <button
+            type="button"
+            onClick={() => setMode("add-child")}
+            aria-label="Add child"
+            title="Add child"
+            className="absolute left-1/2 top-full z-10 flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-sm text-text-secondary opacity-0 transition-opacity hover:border-accent hover:text-text-primary group-hover:opacity-100"
+          >
+            +
+          </button>
+        )}
+      </div>
 
       {hasChildren && collapsed && (
         <>
