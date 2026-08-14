@@ -76,7 +76,7 @@ html {
 
 *::-webkit-scrollbar-track {
   background: transparent;
-  margin: 8px;
+  margin: 24px;
 }
 
 *::-webkit-scrollbar-thumb {
