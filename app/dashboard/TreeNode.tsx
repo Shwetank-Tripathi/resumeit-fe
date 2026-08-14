@@ -332,8 +332,14 @@ export default function TreeNode({
               className="grid transition-[grid-template-rows,grid-template-columns] duration-300 ease-in-out"
               style={
                 isVertical
-                  ? { gridTemplateRows: collapsed ? "0fr" : "1fr" }
-                  : { gridTemplateColumns: collapsed ? "0fr" : "1fr" }
+                  ? {
+                      gridTemplateRows: collapsed ? "0fr" : "1fr",
+                      gridTemplateColumns: "max-content",
+                    }
+                  : {
+                      gridTemplateColumns: collapsed ? "0fr" : "1fr",
+                      gridTemplateRows: "max-content",
+                    }
               }
             >
               <div
