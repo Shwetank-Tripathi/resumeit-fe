@@ -286,21 +286,19 @@ export default function DashboardPage() {
           userEmail={user?.email}
           userRole={user?.role}
           onLogout={handleLogout}
-          onCollapse={() => setSidebarCollapsed(true)}
         />
       </div>
 
-      {sidebarCollapsed && (
-        <button
-          type="button"
-          onClick={() => setSidebarCollapsed(false)}
-          aria-label="Show sidebar"
-          title="Show sidebar"
-          className="absolute left-2 top-4 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
-        >
-          <ChevronIcon direction="right" className="h-4 w-4" />
-        </button>
-      )}
+      <button
+        type="button"
+        onClick={() => setSidebarCollapsed((current) => !current)}
+        aria-label={sidebarCollapsed ? "Show sidebar" : "Hide sidebar"}
+        title={sidebarCollapsed ? "Show sidebar" : "Hide sidebar"}
+        style={{ left: sidebarCollapsed ? 0 : 288 }}
+        className="absolute top-4 z-20 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-text-secondary transition-[left] duration-300 ease-in-out hover:border-accent hover:text-text-primary"
+      >
+        <ChevronIcon direction={sidebarCollapsed ? "right" : "left"} className="h-4 w-4" />
+      </button>
 
       {collectionsLoading ? (
         <div className="flex flex-1 items-center justify-center">
