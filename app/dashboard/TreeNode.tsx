@@ -311,56 +311,67 @@ export default function TreeNode({
         )}
       </div>
 
-      {hasChildren && collapsed && (
+      {hasChildren && (
         <>
           <div className={stemClass(isVertical)} />
-          <button
-            type="button"
-            onClick={() => setCollapsed(false)}
-            className="transition-opacity hover:opacity-90"
-          >
-            <Badge tone="accent" variant="stamp">
-              + {countDescendants(node)} hidden
-            </Badge>
-          </button>
-        </>
-      )}
-
-      {hasChildren && !collapsed && (
-        <>
-          <div className={stemClass(isVertical)} />
-          <div
-            className={`flex items-start gap-8 ${isVertical ? "flex-row" : "flex-col"}`}
-          >
-            {node.children.map((child, index) => (
-              <div
-                key={child._id}
-                className={`relative flex ${isVertical ? "flex-col items-center" : "flex-row items-center"}`}
-              >
-                {index > 0 &&
-                  (isVertical ? (
-                    <div className="absolute -left-4 top-0 h-px w-[calc(50%+1rem)] bg-border-subtle" />
-                  ) : (
-                    <div className="absolute -top-4 left-0 h-[calc(50%+1rem)] w-px bg-border-subtle" />
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setCollapsed(false)}
+              tabIndex={collapsed ? 0 : -1}
+              aria-hidden={!collapsed}
+              className={`absolute left-0 top-0 transition-opacity duration-300 ease-in-out hover:opacity-90 ${
+                collapsed ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+            >
+              <Badge tone="accent" variant="stamp">
+                + {countDescendants(node)} hidden
+              </Badge>
+            </button>
+            <div
+              className="grid transition-[grid-template-rows,grid-template-columns] duration-300 ease-in-out"
+              style={
+                isVertical
+                  ? { gridTemplateRows: collapsed ? "0fr" : "1fr" }
+                  : { gridTemplateColumns: collapsed ? "0fr" : "1fr" }
+              }
+            >
+              <div className="min-h-0 min-w-0 overflow-hidden">
+                <div
+                  className={`flex items-start gap-8 ${isVertical ? "flex-row" : "flex-col"}`}
+                >
+                  {node.children.map((child, index) => (
+                    <div
+                      key={child._id}
+                      className={`relative flex ${isVertical ? "flex-col items-center" : "flex-row items-center"}`}
+                    >
+                      {index > 0 &&
+                        (isVertical ? (
+                          <div className="absolute -left-4 top-0 h-px w-[calc(50%+1rem)] bg-border-subtle" />
+                        ) : (
+                          <div className="absolute -top-4 left-0 h-[calc(50%+1rem)] w-px bg-border-subtle" />
+                        ))}
+                      {index < node.children.length - 1 &&
+                        (isVertical ? (
+                          <div className="absolute left-1/2 top-0 h-px w-[calc(50%+1rem)] bg-border-subtle" />
+                        ) : (
+                          <div className="absolute left-0 top-1/2 h-[calc(50%+1rem)] w-px bg-border-subtle" />
+                        ))}
+                      <div className={stemClass(isVertical)} />
+                      <TreeNode
+                        node={child}
+                        orientation={orientation}
+                        selectedNodeId={selectedNodeId}
+                        onAddChild={onAddChild}
+                        onRename={onRename}
+                        onDelete={onDelete}
+                        onTailor={onTailor}
+                      />
+                    </div>
                   ))}
-                {index < node.children.length - 1 &&
-                  (isVertical ? (
-                    <div className="absolute left-1/2 top-0 h-px w-[calc(50%+1rem)] bg-border-subtle" />
-                  ) : (
-                    <div className="absolute left-0 top-1/2 h-[calc(50%+1rem)] w-px bg-border-subtle" />
-                  ))}
-                <div className={stemClass(isVertical)} />
-                <TreeNode
-                  node={child}
-                  orientation={orientation}
-                  selectedNodeId={selectedNodeId}
-                  onAddChild={onAddChild}
-                  onRename={onRename}
-                  onDelete={onDelete}
-                  onTailor={onTailor}
-                />
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </>
       )}
