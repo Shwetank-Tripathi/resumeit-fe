@@ -278,7 +278,7 @@ export default function ResumeTree({
         />
       </div>
 
-      <div className="flex-1 overflow-auto px-8 py-10">
+      <div className="flex flex-1 overflow-auto px-8 py-10">
         {loading && <p className="label-sm text-text-secondary">Loading tree…</p>}
 
         {!loading && error && (
@@ -305,7 +305,7 @@ export default function ResumeTree({
 
         {!loading && !error && nodes.length > 0 && (
           <div
-            className={`flex items-start gap-16 ${orientation === "vertical" ? "flex-row flex-wrap" : "flex-col"}`}
+            className={`m-auto flex items-start gap-16 ${orientation === "vertical" ? "flex-row flex-wrap" : "flex-col"}`}
           >
             {nodes.map((node) => (
               <TreeNode
