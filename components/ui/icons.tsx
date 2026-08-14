@@ -65,6 +65,26 @@ export function TrashIcon({ className }: IconProps) {
   );
 }
 
+export function ChevronIcon({
+  direction = "down",
+  className,
+}: IconProps & { direction?: "up" | "down" }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <path d={direction === "up" ? "M6 15l6-6 6 6" : "M6 9l6 6 6-6"} />
+    </svg>
+  );
+}
+
 export function CollapseAllIcon({ className }: IconProps) {
   return (
     <svg

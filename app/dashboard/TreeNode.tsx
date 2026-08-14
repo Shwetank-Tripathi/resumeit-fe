@@ -7,7 +7,7 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import TextField from "@/components/ui/TextField";
-import { PencilIcon, TrashIcon } from "@/components/ui/icons";
+import { ChevronIcon, PencilIcon, TrashIcon } from "@/components/ui/icons";
 
 export type Orientation = "vertical" | "horizontal";
 
@@ -179,7 +179,7 @@ export default function TreeNode({
                   }}
                   aria-label="Tailor with JD"
                   title="Tailor with JD"
-                  className="text-xl text-accent-tailor drop-shadow-[0_0_6px_var(--color-accent-tailor)] transition-opacity hover:opacity-75"
+                  className="text-2xl text-accent-tailor drop-shadow-[0_0_8px_var(--color-accent-tailor)] transition-opacity hover:opacity-75"
                 >
                   ✦
                 </button>
@@ -224,18 +224,6 @@ export default function TreeNode({
               className="ml-auto text-danger transition-opacity hover:opacity-75"
             >
               <TrashIcon className="h-4 w-4" />
-            </button>
-          </div>
-        )}
-
-        {mode === "view" && hasChildren && (
-          <div className="mt-3 flex flex-wrap gap-3 border-t border-border-subtle pt-3">
-            <button
-              type="button"
-              onClick={() => setCollapsed(true)}
-              className="label-sm text-text-secondary hover:text-text-primary hover:underline"
-            >
-              Collapse
             </button>
           </div>
         )}
@@ -298,15 +286,28 @@ export default function TreeNode({
         )}
         </Card>
         {mode === "view" && (
-          <button
-            type="button"
-            onClick={() => setMode("add-child")}
-            aria-label="Add child"
-            title="Add child"
-            className="absolute left-1/2 top-full z-10 flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-sm text-text-secondary opacity-0 transition-opacity hover:border-accent hover:text-text-primary group-hover:opacity-100"
-          >
-            +
-          </button>
+          <div className="absolute left-1/2 top-full z-10 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 opacity-0 transition-opacity group-hover:opacity-100">
+            {hasChildren && (
+              <button
+                type="button"
+                onClick={() => setCollapsed((current) => !current)}
+                aria-label={collapsed ? "Expand" : "Collapse"}
+                title={collapsed ? "Expand" : "Collapse"}
+                className="flex h-6 w-6 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
+              >
+                <ChevronIcon direction={collapsed ? "down" : "up"} className="h-3.5 w-3.5" />
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => setMode("add-child")}
+              aria-label="Add child"
+              title="Add child"
+              className="flex h-6 w-6 items-center justify-center rounded-full border border-border-subtle bg-bg-canvas text-sm text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
+            >
+              +
+            </button>
+          </div>
         )}
       </div>
 
